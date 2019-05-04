@@ -1,18 +1,26 @@
 import { Instance } from '../services/instance';
+import { AppConfig } from '../../../config/app.config';
 
 export class Http {
 
     private app: any;
+    private urlPrefix: string;
 
     constructor() {
         this.app = Instance.app;
+        
+        if (AppConfig.routes.api_prefix == '' || AppConfig.routes.api_prefix == null)
+            this.urlPrefix = '/';
+        else
+            this.urlPrefix = '/' + AppConfig.routes.api_prefix + '/';
     }
 
     get(url: string, callback: any, middleware?: any) {
+        console.log(this.urlPrefix + url);
         if (typeof callback !== 'function')
             throw new Error('Callback must be a function.');
 
-        this.app.get('/' + url, (req: any, res: any) => {
+        this.app.get(this.urlPrefix + url, (req: any, res: any) => {
             if (middleware !== undefined) {
                 this.middleware(middleware, res, () => callback(req, res));
             }
