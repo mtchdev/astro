@@ -9,7 +9,7 @@ export class DBQuery {
         this.connect();
     }
 
-    connect() {
+    connect() : void {
         this.connection = mysql.createConnection({
             ...DBConfig.mysql
         });
@@ -17,18 +17,28 @@ export class DBQuery {
         this.connection.connect();
     }
 
-    close() {
+    close() : void {
         if (this.connection)
             this.connection.end();
     }
 
-    where(toMatch: string, match: string, model: string) {
-        this.connection.query('SELECT FROM `'+model+'` WHERE `'+toMatch+'` = "'+match+'"', (err: any, result: any, fields: any) => {
+    where(toMatch: string, match: string, model: string) : Promise<any> {
+        let query = "SELECT * FROM ?? WHERE ?? = ?";
+        let prepare = [
+            model,
+            toMatch,
+            match
+        ];
+        let serialized = mysql.format(query, prepare);
+
+        return new Promise<any>((resolve: any, reject: any) => {
+            this.connection.query(serialized, (err: any, result: any, fields: any) => {
             if (err)
                 throw new Error(err);
 
-            return result;
+            resolve(result);
         });
+        })
     }
 
 }

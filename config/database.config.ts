@@ -1,8 +1,8 @@
 export const DBConfig = {
     mysql: {
-        host: '',
-        user: '',
+        host: 'localhost',
+        user: 'root',
         password: '',
-        database: ''
+        database: 'neo'
     }
 }

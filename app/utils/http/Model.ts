@@ -3,7 +3,7 @@ import { DBQuery } from '../services/mysql';
 export class Model {
 
     public table: string;
-    public fillable: any[];
+    public fillable?: any[];
 
     private dbInstance: DBQuery;
 
