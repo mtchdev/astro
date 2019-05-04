@@ -1,7 +1,11 @@
+import { Instance } from '../services/instance';
+
 export class Http {
 
-    constructor(private app: any) {
+    private app: any;
 
+    constructor() {
+        this.app = Instance.app;
     }
 
     get(url: string, callback: any) {

@@ -1,4 +1,3 @@
-import { Route } from '../app/utils/router/route';
 import { Http } from '../app/utils/router/http';
 
 /**
@@ -7,8 +6,6 @@ import { Http } from '../app/utils/router/http';
 
 import { UserController } from '../app/controllers/UserController';
 
-new Route({
-    controller: new UserController().getUsers(),
-    url: 'users',
-    method: 'GET',
+new Http().get('users', (req: any, res: any) => {
+    new UserController(res).getUsers();
 });
