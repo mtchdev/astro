@@ -10,4 +10,4 @@ import { AuthMiddleware } from '../app/middleware/AuthMiddleware';
 
 http.get('users', (req: any, res: any) => {
     new UserController(res).getUsers();
-}, AuthMiddleware);
+}, [AuthMiddleware]);

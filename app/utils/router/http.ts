@@ -21,11 +21,29 @@ export class Http {
             throw new Error('Callback must be a function.');
 
         this.app.get(this.urlPrefix + url, (req: any, res: any) => {
-            if (middleware !== undefined) {
+            var passed = [];
+
+            if (middleware == undefined)
+                return callback(req, res);
+
+            if (middleware instanceof Array)
+                this.checkMiddlewareArray(middleware, res).then(() => {
+                    callback(req, res);
+                });
+            else
                 this.middleware(middleware, res, () => callback(req, res));
+        });
+    }
+
+    checkMiddlewareArray(middleware: any[], res: any) : Promise<any> {
+        return new Promise<any>((resolve: any, reject: any) => {
+            let passed = [];
+            for (let i = 0; i < middleware.length; i++) {
+                this.middleware(middleware[i], res, () => passed.push(true));
+                
+                if (i == middleware.length - 1 && passed.length == middleware.length - 1)
+                    resolve();
             }
-            else 
-                callback();
         });
     }
 
