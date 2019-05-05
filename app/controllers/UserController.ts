@@ -29,7 +29,18 @@ export class UserController extends Controller {
     }
 
     async addUser(request: Request) {
-        this.respondWithSuccess(request.headers);
+        await new User().insert([
+            {
+                key: 'guild_id',
+                value: '8'
+            },
+            {
+                key: 'owner_id',
+                value: 's'
+            }
+        ]);
+
+        this.respondWithSuccess();
     }
 
 }

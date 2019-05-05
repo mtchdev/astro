@@ -5,6 +5,11 @@ interface ToMatch {
     with: any
 }
 
+interface Insert {
+    key: string,
+    value: string
+}
+
 export class Model {
 
     public table: string;
@@ -22,6 +27,10 @@ export class Model {
 
     whereArray(params: ToMatch[]) {
         return this.dbInstance.whereArray(params, this.table);
+    }
+
+    insert(params: Insert[]) {
+        return this.dbInstance.insert(params, this.table);
     }
 
 }
