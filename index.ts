@@ -3,6 +3,7 @@
  */
 
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 
 /**
  * Import required helpers and utilities
@@ -23,6 +24,10 @@ const APP = express();
 
 serve.up(APP);
 Instance.app = APP;
+APP.use(bodyParser.json());
+APP.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 /**
  * Start router

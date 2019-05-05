@@ -23,4 +23,8 @@ export class UserController extends Controller {
         this.respondWithSuccess({data: result});
     }
 
+    async addUser(request: Request) {
+        this.respondWithSuccess(request.headers);
+    }
+
 }

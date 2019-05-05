@@ -8,6 +8,10 @@ const http = new Http();
 import { UserController } from '../app/controllers/UserController';
 import { AuthMiddleware } from '../app/middleware/AuthMiddleware';
 
-http.get('users', (req: any, res: any) => {
+http.get('users', (req: Request, res: Response) => {
     new UserController(res).getUsers();
 }, [AuthMiddleware]);
+
+http.post('user', (req: Request, res: Response) => {
+    new UserController(res).addUser(req);
+});

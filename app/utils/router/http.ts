@@ -16,13 +16,27 @@ export class Http {
     }
 
     get(url: string, callback: any, middleware?: any) {
-        console.log(this.urlPrefix + url);
         if (typeof callback !== 'function')
             throw new Error('Callback must be a function.');
 
         this.app.get(this.urlPrefix + url, (req: any, res: any) => {
-            var passed = [];
+            if (middleware == undefined)
+                return callback(req, res);
 
+            if (middleware instanceof Array)
+                this.checkMiddlewareArray(middleware, res).then(() => {
+                    callback(req, res);
+                });
+            else
+                this.middleware(middleware, res, () => callback(req, res));
+        });
+    }
+
+    post(url: string, callback: any, middleware?: any) {
+        if (typeof callback !== 'function')
+        throw new Error('Callback must be a function.');
+
+        this.app.post(this.urlPrefix + url, (req: any, res: any) => {
             if (middleware == undefined)
                 return callback(req, res);
 
