@@ -28,17 +28,15 @@ export class UserController extends Controller {
         this.respondWithSuccess({data: result});
     }
 
-    async addUser(request: Request) {
-        await new User().insert([
-            {
-                key: 'guild_id',
-                value: '8'
-            },
-            {
-                key: 'owner_id',
-                value: 's'
-            }
-        ]);
+    async addUser(request: any) {
+        let input = request.body;
+        let user = new User();
+
+        user.username = input.username;
+        user.email = input.email;
+        user.password = input.password;
+
+        user.save();
 
         this.respondWithSuccess();
     }

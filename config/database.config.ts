@@ -3,6 +3,6 @@ export const DBConfig = {
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'neo'
+        database: 'astro'
     }
 }

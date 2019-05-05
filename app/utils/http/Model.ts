@@ -33,4 +33,17 @@ export class Model {
         return this.dbInstance.insert(params, this.table);
     }
 
+    save() {
+        let fillable = this.fillable;
+        let filledValues = [];
+
+        for (let i in fillable)
+            filledValues.push({
+                key: fillable[i],
+                value: eval("this." + fillable[i])
+            });
+
+        this.insert(filledValues);
+    }
+
 }
