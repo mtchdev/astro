@@ -19,7 +19,7 @@ export class Http {
         if (typeof callback !== 'function')
             throw new Error('Callback must be a function.');
 
-        this.app.get(this.urlPrefix + url, (req: any, res: any) => {
+        this.app.get(this.urlPrefix + url, (req: Request, res: Response) => {
             if (middleware == undefined)
                 return callback(req, res);
 
@@ -34,9 +34,43 @@ export class Http {
 
     post(url: string, callback: any, middleware?: any) {
         if (typeof callback !== 'function')
-        throw new Error('Callback must be a function.');
+            throw new Error('Callback must be a function.');
 
-        this.app.post(this.urlPrefix + url, (req: any, res: any) => {
+        this.app.post(this.urlPrefix + url, (req: Request, res: Response) => {
+            if (middleware == undefined)
+                return callback(req, res);
+
+            if (middleware instanceof Array)
+                this.checkMiddlewareArray(middleware, res).then(() => {
+                    callback(req, res);
+                });
+            else
+                this.middleware(middleware, res, () => callback(req, res));
+        });
+    }
+
+    put(url: string, callback: any, middleware?: any) {
+        if (typeof callback !== 'function')
+            throw new Error('Callback must be a function.');
+
+        this.app.put(this.urlPrefix + url, (req: Request, res: Response) => {
+            if (middleware == undefined)
+                return callback(req, res);
+
+            if (middleware instanceof Array)
+                this.checkMiddlewareArray(middleware, res).then(() => {
+                    callback(req, res);
+                });
+            else
+                this.middleware(middleware, res, () => callback(req, res));
+        });
+    }
+
+    delete(url: string, callback: any, middleware?: any) {
+        if (typeof callback !== 'function')
+            throw new Error('Callback must be a function.');
+
+        this.app.delete(this.urlPrefix + url, (req: Request, res: Response) => {
             if (middleware == undefined)
                 return callback(req, res);
 
