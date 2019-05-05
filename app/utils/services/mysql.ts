@@ -1,6 +1,11 @@
 import * as mysql from 'mysql';
 import { DBConfig } from '../../../config/database.config';
 
+interface ToMatch {
+    match: string,
+    with: any
+}
+
 export class DBQuery {
 
     private connection: any;
@@ -33,11 +38,37 @@ export class DBQuery {
 
         return new Promise<any>((resolve: any, reject: any) => {
             this.connection.query(serialized, (err: any, result: any, fields: any) => {
-            if (err)
-                throw new Error(err);
+                if (err)
+                    throw new Error(err);
 
-            resolve(result);
+                resolve(result);
+            });
         });
+    }
+
+    whereArray(params: ToMatch[], model: string) : Promise<any> {
+        let query = "SELECT * FROM ?? WHERE ?? = ?";
+        let prepare = [
+            model
+        ];
+
+        for (let i = 0; i < params.length; i++) {
+            if (i == 1)
+                query += " AND ?? = ?";
+
+            prepare.push(params[i].match);
+            prepare.push(params[i].with);
+        }
+
+        let serialized = mysql.format(query, prepare);
+
+        return new Promise<any>((resolve: any, reject: any) => {
+            this.connection.query(serialized, (err: any, result: any, fields: any) => {
+                if (err)
+                    throw new Error(err);
+
+                resolve(result);
+            });
         })
     }
 

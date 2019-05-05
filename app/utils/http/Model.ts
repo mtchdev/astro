@@ -1,5 +1,10 @@
 import { DBQuery } from '../services/mysql';
 
+interface ToMatch {
+    match: string,
+    with: any
+}
+
 export class Model {
 
     public table: string;
@@ -13,6 +18,10 @@ export class Model {
 
     where(to: string, from: string) {
         return this.dbInstance.where(to, from, this.table);
+    }
+
+    whereArray(params: ToMatch[]) {
+        return this.dbInstance.whereArray(params, this.table);
     }
 
 }
