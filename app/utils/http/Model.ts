@@ -41,7 +41,7 @@ export class Model {
         return this.dbInstance.insert(params, this.table);
     }
 
-    save() {
+    async save() {
         let fillable = this.fillable;
         let filledValues = [];
 
@@ -51,7 +51,7 @@ export class Model {
                 value: eval("this." + fillable[i])
             });
 
-        this.insert(filledValues);
+        return await this.insert(filledValues);
     }
 
 }
