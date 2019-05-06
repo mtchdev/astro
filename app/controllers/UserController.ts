@@ -16,12 +16,7 @@ export class UserController extends Controller {
             }
         ]
 
-        let result = await new User().whereArray([
-            {
-                match: 'id',
-                with: 3
-            }
-        ]);
+        let result = await new User().where();
 
         console.log(result)
 

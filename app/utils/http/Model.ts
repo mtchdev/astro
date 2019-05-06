@@ -14,6 +14,7 @@ export class Model {
 
     public table: string;
     public fillable?: any[];
+    public noReturn?: any[];
 
     private dbInstance: DBQuery;
 
@@ -21,7 +22,7 @@ export class Model {
         this.dbInstance = new DBQuery();
     }
 
-    where(to: string, from: string) {
+    where(to?: string, from?: string) {
         return this.dbInstance.where(to, from, this.table);
     }
 
