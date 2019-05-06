@@ -50,4 +50,8 @@ export class Response {
 
         return this.sender.send(this.response);
     }
+
+    json(message: any) {
+        return this.sender.send(message);
+    }
 }
