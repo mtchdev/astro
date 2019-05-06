@@ -8,17 +8,7 @@ export class UserController extends Controller {
     }
 
     async getUsers() {
-        let users = [
-            {
-                username: 'jappleseed01',
-                email: 'sample@example.com',
-                id: 1
-            }
-        ]
-
-        let result = await new User().where();
-
-        console.log(result)
+        let result = await new User().all();
 
         this.respondWithSuccess({data: result});
     }

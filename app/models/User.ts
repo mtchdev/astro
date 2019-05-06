@@ -13,6 +13,7 @@ export class User extends Model {
         this.fillable = [
             'username', 'email', 'password'
         ];
+        this.noReturn = ['password'];
     }
 
 }

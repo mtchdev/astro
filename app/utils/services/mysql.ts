@@ -41,6 +41,25 @@ export class DBQuery {
         ];
         let serialized = mysql.format(query, prepare);
 
+        console.log(serialized)
+
+        return new Promise<any>((resolve: any, reject: any) => {
+            this.connection.query(serialized, (err: any, result: any, fields: any) => {
+                if (err)
+                    throw new Error(err);
+
+                resolve(result);
+            });
+        });
+    }
+
+    all(model: string) : Promise<any> {
+        let query = "SELECT * FROM ??";
+        let prepare = [
+            model
+        ];
+        let serialized = mysql.format(query, prepare);
+
         return new Promise<any>((resolve: any, reject: any) => {
             this.connection.query(serialized, (err: any, result: any, fields: any) => {
                 if (err)

@@ -1,4 +1,5 @@
 import { DBQuery } from '../services/mysql';
+import { SQLDataPipe } from '../pipes/SQLDataPipe';
 
 interface ToMatch {
     match: string,
@@ -22,12 +23,18 @@ export class Model {
         this.dbInstance = new DBQuery();
     }
 
-    where(to?: string, from?: string) {
-        return this.dbInstance.where(to, from, this.table);
+    async where(to?: string, from?: string) {
+        let db = await this.dbInstance.where(to, from, this.table);
+        return await new SQLDataPipe(db, this.noReturn).run();
     }
 
     whereArray(params: ToMatch[]) {
         return this.dbInstance.whereArray(params, this.table);
+    }
+
+    async all() {
+        let db = await this.dbInstance.all(this.table);
+        return await new SQLDataPipe(db, this.noReturn).run();
     }
 
     insert(params: Insert[]) {
