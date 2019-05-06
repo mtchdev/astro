@@ -125,7 +125,10 @@ export class DBQuery {
                 if (err)
                     throw new Error(err);
 
-                resolve(result);
+                if (result.insertId)
+                    resolve(result.insertId)
+                else
+                    resolve();
             });
         })
     }
