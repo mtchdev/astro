@@ -1,17 +1,8 @@
 import { DBQuery } from '../services/mysql';
 import { SQLDataPipe } from '../pipes/SQLDataPipe';
+import { QueryResult, SQLQueryModel, ToMatch, Insert } from '../services/namespaces/Database';
 
-interface ToMatch {
-    match: string,
-    with: any
-}
-
-interface Insert {
-    key: string,
-    value: string
-}
-
-export class Model {
+export class Model implements SQLQueryModel {
 
     public table: string;
     public fillable?: any[];
@@ -23,22 +14,20 @@ export class Model {
         this.dbInstance = new DBQuery();
     }
 
-    async where(to?: string, from?: string) {
-        let db = await this.dbInstance.where(to, from, this.table);
-        return await new SQLDataPipe(db, this.noReturn).run();
+    where(to: string, from: string) : Promise<QueryResult> {
+        return new Promise<QueryResult>((res, rej) => this.dbInstance.where(to, from).then((db: QueryResult) => { res(new SQLDataPipe(db, this.noReturn).run()); }));
     }
 
-    whereArray(params: ToMatch[]) {
-        return this.dbInstance.whereArray(params, this.table);
+    whereArray(params: ToMatch[]) : Promise<QueryResult> {
+        return new Promise<QueryResult>((res, rej) => this.dbInstance.whereArray(params).then((db: QueryResult) => { res(new SQLDataPipe(db, this.noReturn).run()); }))
     }
 
-    async all() {
-        let db = await this.dbInstance.all(this.table);
-        return await new SQLDataPipe(db, this.noReturn).run();
+    all() : Promise<QueryResult> {
+        return new Promise<QueryResult>((res, rej) => this.dbInstance.all().then((db: QueryResult) => { res(new SQLDataPipe(db, this.noReturn).run()); }))
     }
 
-    insert(params: Insert[]) {
-        return this.dbInstance.insert(params, this.table);
+    insert(params: Insert[]) : Promise<QueryResult> {
+        return new Promise<QueryResult>((res, rej) => this.dbInstance.insert(params).then((db: QueryResult) => { res(db); }))
     }
 
     async save() {

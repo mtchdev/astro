@@ -1,79 +1,70 @@
 import * as mysql from 'mysql';
 import { DBConfig } from '../../../config/database.config';
+import { DB, QueryResult, SQLQueryModel, SQLResultTransformer, ToMatch, Insert } from './namespaces/Database';
 
-interface ToMatch {
-    match: string,
-    with: any
-}
+export class DBQuery implements DB, SQLQueryModel {
 
-interface Insert {
-    key: string,
-    value: string
-}
-
-export class DBQuery {
-
-    private connection: any;
+    public instance: any;
+    public connected: boolean;
+    public model: string;
 
     constructor() {
         this.connect();
     }
 
-    connect() : void {
-        this.connection = mysql.createConnection({
+    private async connect() {
+        this.instance.instance = mysql.createConnection({
             ...DBConfig.mysql
         });
 
-        this.connection.connect();
+        this.instance.instance.connect();
     }
 
     close() : void {
-        if (this.connection)
-            this.connection.end();
+        if (this.instance)
+            this.instance.end();
     }
 
-    where(toMatch: string, match: string, model: string) : Promise<any> {
+    where(toMatch: string, match: string) : Promise<QueryResult> {
         let query = "SELECT * FROM ?? WHERE ?? = ?";
         let prepare = [
-            model,
+            this.model,
             toMatch,
             match
         ];
         let serialized = mysql.format(query, prepare);
 
-        console.log(serialized)
-
-        return new Promise<any>((resolve: any, reject: any) => {
-            this.connection.query(serialized, (err: any, result: any, fields: any) => {
+        return new Promise<QueryResult>((resolve: any, reject: any) => {
+            this.instance.query(serialized, (err: any, result: any, fields: any) => {
                 if (err)
                     throw new Error(err);
 
-                resolve(result);
+                resolve(SQLResultTransformer(result));
             });
         });
     }
 
-    all(model: string) : Promise<any> {
+    all() : Promise<QueryResult> {
         let query = "SELECT * FROM ??";
         let prepare = [
-            model
+            this.model
         ];
         let serialized = mysql.format(query, prepare);
 
-        return new Promise<any>((resolve: any, reject: any) => {
-            this.connection.query(serialized, (err: any, result: any, fields: any) => {
+        return new Promise<QueryResult>((resolve: any, reject: any) => {
+            this.instance.query(serialized, (err: any, result: any, fields: any) => {
                 if (err)
                     throw new Error(err);
 
-                resolve(result);
+                    resolve(SQLResultTransformer(result));
             });
         });
     }
 
-    whereArray(params: ToMatch[], model: string) : Promise<any> {
+    whereArray(params: ToMatch[]) : Promise<QueryResult> {
         let query = "SELECT * FROM ?? WHERE ?? = ?";
         let prepare = [
-            model
+            this.model
         ];
 
         for (let i = 0; i < params.length; i++) {
@@ -86,20 +77,20 @@ export class DBQuery {
 
         let serialized = mysql.format(query, prepare);
 
-        return new Promise<any>((resolve: any, reject: any) => {
-            this.connection.query(serialized, (err: any, result: any, fields: any) => {
+        return new Promise<QueryResult>((resolve: any, reject: any) => {
+            this.instance.query(serialized, (err: any, result: any, fields: any) => {
                 if (err)
                     throw new Error(err);
 
-                resolve(result);
+                resolve(SQLResultTransformer(result));
             });
         });
     }
 
-    insert(params: Insert[], model: string) : Promise<any> {
+    insert(params: Insert[]) : Promise<QueryResult> {
         let query = "INSERT INTO ?? (";
         let prepare = [
-            model
+            this.model
         ];
 
         for (let i = 0; i < params.length; i++) {
@@ -120,13 +111,13 @@ export class DBQuery {
 
         let serialized = mysql.format(query, prepare);
 
-        return new Promise<any>((resolve: any, reject: any) => {
-            this.connection.query(serialized, (err: any, result: any, fields: any) => {
+        return new Promise<QueryResult>((resolve: any, reject: any) => {
+            this.instance.query(serialized, (err: any, result: any, fields: any) => {
                 if (err)
                     throw new Error(err);
 
                 if (result.insertId)
-                    resolve(result.insertId)
+                    resolve(SQLResultTransformer(result.insertId));
                 else
                     resolve();
             });
