@@ -10,8 +10,8 @@ export class Model implements SQLQueryModel {
 
     private dbInstance: DBQuery;
 
-    constructor() {
-        this.dbInstance = new DBQuery();
+    constructor(table: string) {
+        this.dbInstance = new DBQuery(table);
     }
 
     where(to: string, from: string) : Promise<QueryResult> {

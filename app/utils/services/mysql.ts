@@ -8,16 +8,19 @@ export class DBQuery implements DB, SQLQueryModel {
     public connected: boolean;
     public model: string;
 
-    constructor() {
+    constructor(model: string) {
+        this.model = model;
+        console.log(this.model)
         this.connect();
     }
 
     private async connect() {
-        this.instance.instance = mysql.createConnection({
-            ...DBConfig.mysql
+        this.instance = mysql.createConnection({
+            ...DBConfig.mysql,
+            port: DBConfig.mysql.port || '3306'
         });
 
-        this.instance.instance.connect();
+        this.instance.connect();
     }
 
     close() : void {
@@ -33,6 +36,8 @@ export class DBQuery implements DB, SQLQueryModel {
             match
         ];
         let serialized = mysql.format(query, prepare);
+
+        console.log(serialized)
 
         return new Promise<QueryResult>((resolve: any, reject: any) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
@@ -51,12 +56,16 @@ export class DBQuery implements DB, SQLQueryModel {
         ];
         let serialized = mysql.format(query, prepare);
 
+        console.log(serialized);
+
         return new Promise<QueryResult>((resolve: any, reject: any) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
+                console.log('res')
                 if (err)
                     throw new Error(err);
 
-                    resolve(SQLResultTransformer(result));
+                console.log(result)
+                resolve(SQLResultTransformer(result));
             });
         });
     }

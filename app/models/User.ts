@@ -7,7 +7,7 @@ export class User extends Model {
     public password: string;
 
     constructor() {
-        super();
+        super('users');
 
         this.table = 'users';
         this.fillable = [

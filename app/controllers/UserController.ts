@@ -9,6 +9,7 @@ export class UserController extends Controller {
 
     async getUsers() {
         let result = await new User().all();
+        console.log(result)
 
         this.respondWithSuccess({data: result});
     }

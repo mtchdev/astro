@@ -1,8 +1,9 @@
 export const DBConfig = {
     mysql: {
         host: 'localhost',
+        port: 8889,
         user: 'root',
-        password: '',
+        password: 'root',
         database: 'astro'
     }
 }
