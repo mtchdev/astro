@@ -30,7 +30,7 @@ export class Model implements SQLQueryModel {
         return new Promise<QueryResult>((res, rej) => this.dbInstance.insert(params).then((db: QueryResult) => { res(db); }));
     }
 
-    update(params: Insert[], where: ToMatch[]) : Promise<QueryResult> {
+    update(params: any, where: any) : Promise<QueryResult> {
         return new Promise<QueryResult>((res, rej) => this.dbInstance.update(params, where).then((db: QueryResult) => { res(db); }));
     }
 

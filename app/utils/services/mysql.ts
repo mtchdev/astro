@@ -128,28 +128,33 @@ export class DBQuery implements DB, SQLQueryModel {
         })
     }
 
-    update(params: Insert[], where: ToMatch[]) : Promise<QueryResult> {
+    update(params: any, where: any) : Promise<QueryResult> {
         let query = "UPDATE ?? SET ";
         let prepare = [
             this.model
         ];
 
-        for (let i = 0; i < params.length; i++) {
-            if (i !== params.length - 1)
-                query += `\`${params[i].key}\`` + " =  ?, ";
+        let i1 = 0;
+        let i2 = 0;
+
+        for (var i in params) {
+            i1++;
+            if (i1 !== Object.keys(params).length)
+                query += `\`${i}\`` + " = ?, ";
             else
-                query += `\`${params[i].key}\`` + " = ? WHERE ";
+                query += `\`${i}\`` + " = ? WHERE ";
             
-            prepare.push(params[i].value);
+            prepare.push(params[i]);
         }
 
-        for (let i = 0; i < where.length; i++) {
-            if (i !== where.length - 1)
-                query += "`" + where[i].match + "` = ? AND ";
+        for (var i in where) {
+            i2++;
+            if (i2 !== Object.keys(where).length)
+                query += "`" + i + "` = ? AND ";
             else
-                query += "`" + where[i].match + "` = ?";
+                query += "`" + i + "` = ?";
 
-            prepare.push(where[i].with);
+            prepare.push(where[i]);
         }
 
         let serialized = mysql.format(query, prepare);
