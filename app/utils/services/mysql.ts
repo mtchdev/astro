@@ -1,6 +1,6 @@
 import * as mysql from 'mysql';
 import { DBConfig } from '../../../config/database.config';
-import { DB, QueryResult, SQLQueryModel, SQLResultTransformer, ToMatch, Insert } from './namespaces/Database';
+import { DB, QueryResult, SQLQueryModel, SQLResultTransformer, ToMatch, Insert, Update } from './namespaces/Database';
 
 export class DBQuery implements DB, SQLQueryModel {
 
@@ -27,27 +27,6 @@ export class DBQuery implements DB, SQLQueryModel {
             this.instance.end();
     }
 
-    where(toMatch: string, match: string) : Promise<QueryResult> {
-        let query = "SELECT * FROM ?? WHERE ?? = ?";
-        let prepare = [
-            this.model,
-            toMatch,
-            match
-        ];
-        let serialized = mysql.format(query, prepare);
-
-        console.log(serialized)
-
-        return new Promise<QueryResult>((resolve: any, reject: any) => {
-            this.instance.query(serialized, (err: any, result: any, fields: any) => {
-                if (err)
-                    throw new Error(err);
-
-                resolve(SQLResultTransformer(result));
-            });
-        });
-    }
-
     all() : Promise<QueryResult> {
         let query = "SELECT * FROM ??";
         let prepare = [
@@ -65,21 +44,26 @@ export class DBQuery implements DB, SQLQueryModel {
         });
     }
 
-    whereArray(params: ToMatch[]) : Promise<QueryResult> {
+    where(params: any) : Promise<QueryResult> {
         let query = "SELECT * FROM ?? WHERE ?? = ?";
         let prepare = [
             this.model
         ];
 
-        for (let i = 0; i < params.length; i++) {
-            if (i == 1)
-                query += " AND ?? = ?";
+        let i1 = 0;
 
-            prepare.push(params[i].match);
-            prepare.push(params[i].with);
+        for (var i in params) {
+            i1++;
+            if (i1 !== Object.keys(params.values).length)
+                query += `\`${i}\`` + " = ? AND ";
+            else
+                query += `\`${i}\`` + " = ?";
+            
+            prepare.push(params[i]);
         }
 
         let serialized = mysql.format(query, prepare);
+        console.log(serialized)
 
         return new Promise<QueryResult>((resolve: any, reject: any) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
@@ -128,7 +112,7 @@ export class DBQuery implements DB, SQLQueryModel {
         })
     }
 
-    update(params: any, where: any) : Promise<QueryResult> {
+    update(params: Update) : Promise<QueryResult> {
         let query = "UPDATE ?? SET ";
         let prepare = [
             this.model
@@ -137,9 +121,9 @@ export class DBQuery implements DB, SQLQueryModel {
         let i1 = 0;
         let i2 = 0;
 
-        for (var i in params) {
+        for (var i in params.values) {
             i1++;
-            if (i1 !== Object.keys(params).length)
+            if (i1 !== Object.keys(params.values).length)
                 query += `\`${i}\`` + " = ?, ";
             else
                 query += `\`${i}\`` + " = ? WHERE ";
@@ -147,14 +131,14 @@ export class DBQuery implements DB, SQLQueryModel {
             prepare.push(params[i]);
         }
 
-        for (var i in where) {
+        for (var i in params.where) {
             i2++;
-            if (i2 !== Object.keys(where).length)
+            if (i2 !== Object.keys(params.where).length)
                 query += "`" + i + "` = ? AND ";
             else
                 query += "`" + i + "` = ?";
 
-            prepare.push(where[i]);
+            prepare.push(params.where[i]);
         }
 
         let serialized = mysql.format(query, prepare);

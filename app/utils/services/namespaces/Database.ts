@@ -18,12 +18,16 @@ export interface Insert {
     value: string
 }
 
+export interface Update {
+    values: any,
+    where: any
+}
+
 export interface SQLQueryModel {
-    where(match: string, from: string): Promise<QueryResult>;
-    whereArray(params: ToMatch[]): Promise<QueryResult>;
+    where(params: any): Promise<QueryResult>;
     all(): Promise<QueryResult>;
     insert(params: Insert[]): Promise<QueryResult>;
-    update(params: Insert[], where: ToMatch[]): Promise<QueryResult>;
+    update(params: Update): Promise<QueryResult>;
 }
 
 export function SQLResultTransformer(result: any): QueryResult {
