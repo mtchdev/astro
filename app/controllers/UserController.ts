@@ -8,7 +8,17 @@ export class UserController extends Controller {
     }
 
     async getUsers() {
-        let result = await new User().all();
+        let result = await new User().update([
+            {
+                key: 'username',
+                value: 'test'
+            }
+        ], [
+            {
+                match: 'username',
+                with: 'spliitzx'
+            }
+        ]);
 
         this.respondWithSuccess({data: result});
     }

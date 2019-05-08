@@ -23,6 +23,7 @@ export interface SQLQueryModel {
     whereArray(params: ToMatch[]): Promise<QueryResult>;
     all(): Promise<QueryResult>;
     insert(params: Insert[]): Promise<QueryResult>;
+    update(params: Insert[], where: ToMatch[]): Promise<QueryResult>;
 }
 
 export function SQLResultTransformer(result: any): QueryResult {

@@ -19,15 +19,19 @@ export class Model implements SQLQueryModel {
     }
 
     whereArray(params: ToMatch[]) : Promise<QueryResult> {
-        return new Promise<QueryResult>((res, rej) => this.dbInstance.whereArray(params).then((db: QueryResult) => { res(new SQLDataPipe(db, this.noReturn).run()); }))
+        return new Promise<QueryResult>((res, rej) => this.dbInstance.whereArray(params).then((db: QueryResult) => { res(new SQLDataPipe(db, this.noReturn).run()); }));
     }
 
     all() : Promise<QueryResult> {
-        return new Promise<QueryResult>((res, rej) => this.dbInstance.all().then((db: QueryResult) => { res(new SQLDataPipe(db, this.noReturn).run()); }))
+        return new Promise<QueryResult>((res, rej) => this.dbInstance.all().then((db: QueryResult) => { res(new SQLDataPipe(db, this.noReturn).run()); }));
     }
 
     insert(params: Insert[]) : Promise<QueryResult> {
-        return new Promise<QueryResult>((res, rej) => this.dbInstance.insert(params).then((db: QueryResult) => { res(db); }))
+        return new Promise<QueryResult>((res, rej) => this.dbInstance.insert(params).then((db: QueryResult) => { res(db); }));
+    }
+
+    update(params: Insert[], where: ToMatch[]) : Promise<QueryResult> {
+        return new Promise<QueryResult>((res, rej) => this.dbInstance.update(params, where).then((db: QueryResult) => { res(db); }));
     }
 
     async save() {
