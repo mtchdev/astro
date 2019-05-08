@@ -10,7 +10,6 @@ export class DBQuery implements DB, SQLQueryModel {
 
     constructor(model: string) {
         this.model = model;
-        console.log(this.model)
         this.connect();
     }
 
@@ -56,15 +55,11 @@ export class DBQuery implements DB, SQLQueryModel {
         ];
         let serialized = mysql.format(query, prepare);
 
-        console.log(serialized);
-
         return new Promise<QueryResult>((resolve: any, reject: any) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
-                console.log('res')
                 if (err)
                     throw new Error(err);
 
-                console.log(result)
                 resolve(SQLResultTransformer(result));
             });
         });
