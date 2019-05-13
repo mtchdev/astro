@@ -1,4 +1,4 @@
-import { Http } from '../app/utils/router/http';
+import { Http } from 'vendor/astro/router/http';
 const http = new Http();
 
 /**

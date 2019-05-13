@@ -8,39 +8,35 @@ export class UserController extends Controller {
     }
 
     async getUsers() {
-        //var users = await new User().all();
-        var users = await new User().where({
-            username: 'test',
-            id: 1
-        });
+        var users = await new User().all();
 
-        this.respondWithSuccess({data: users});
+        return this.respondWithSuccess(users);
     }
 
-    async addUser(request: any) {
+    async getUser(request: Request) {
+        var input = request.body;
+
+        var user = await new User().where({
+            username: input['username']
+        });
+
+        if (!user)
+            return this.respondWithError(404);
+
+        return this.respondWithSuccess(user);
+    }
+
+    async addUser(request: Request) {
         var input = request.body;
         var user = new User();
 
-        user.username = input.username;
-        user.email = input.email;
-        user.password = input.password;
+        user.username = input['username'];
+        user.email = input['email'];
+        user.password = input['password'];
 
-        await user.save();
+        user.save();
 
-        this.respondWithSuccess();
-    }
-
-    async updateUser(request: any) {
-        var input = request.body;
-
-        await new User().update({
-            values: {
-                username: 'john'
-            },
-            where: {
-                id: 1
-            }
-        });
+        return this.respondWithSuccess();
     }
 
 }

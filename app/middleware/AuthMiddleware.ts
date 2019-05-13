@@ -1,4 +1,4 @@
-import { Middleware } from '../utils/http/Middleware';
+import { Middleware } from 'vendor/astro/http/Middleware';
 
 export class AuthMiddleware extends Middleware {
 
