@@ -2,15 +2,15 @@
  * Import primary server provider
  */
 
-import * as express from 'express';
+import express from 'express';
 import * as bodyParser from 'body-parser';
 
 /**
  * Import required helpers and utilities
  */
 
-import { serve } from './app/utils/server/serve';
-import { Instance } from './app/utils/services/instance';
+import { serve } from 'vendor/astro/server/serve';
+import { Instance } from 'vendor/astro/services/instance';
 
 /**
  * Initialize the application instance

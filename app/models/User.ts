@@ -1,4 +1,4 @@
-import { Model } from '../utils/http/Model';
+import { Model } from 'vendor/astro/http/Model';
 
 export class User extends Model {
 

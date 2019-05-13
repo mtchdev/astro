@@ -1,3 +1,3 @@
 export var Instance = {
-    app: undefined
+    app: null
 };

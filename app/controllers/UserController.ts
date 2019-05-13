@@ -1,5 +1,5 @@
-import { Controller } from '../utils/http/Controller';
-import { User } from '../models/User';
+import { Controller } from 'vendor/astro/http/Controller';
+import { User } from 'app/models/User';
 
 export class UserController extends Controller {
 
