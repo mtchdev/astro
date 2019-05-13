@@ -17,6 +17,9 @@ export class SQLDataPipe extends Pipe {
             if (this.toRemove == undefined)
                 return resolve(this.input);
 
+            if (this.toRemove.length == 0)
+                return resolve(this.input);
+
             for (let i = 0; i < this.toRemove.length; i++) {
                 if (this.input instanceof Array) {
                     for (let x = 0; x < this.input.length; x++) {

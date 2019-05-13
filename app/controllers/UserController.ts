@@ -9,7 +9,7 @@ export class UserController extends Controller {
 
     async getUsers() {
         var users = await new User().all();
-
+        
         return this.respondWithSuccess(users);
     }
 
@@ -35,6 +35,22 @@ export class UserController extends Controller {
         user.password = input['password'];
 
         user.save();
+
+        return this.respondWithSuccess();
+    }
+
+    async changeUsername(request: Request) {
+        var input = request.body;
+
+        new User().update({
+            values: {
+                username: input['newUsername'],
+                email: input['newEmail']
+            },
+            where: {
+                id: 1
+            }
+        });
 
         return this.respondWithSuccess();
     }
