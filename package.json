@@ -8,7 +8,9 @@
     "start": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' index.ts",
     "start:dev": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' index.ts",
     "start:prod": "ts-node index.ts",
-    "tsc:init": "tsc --init"
+    "tsc:init": "tsc --init",
+    "generate:controller": "ts-node vendor/gen/controller.generator.ts",
+    "generate:model": "ts-node vendor/gen/model.generator.ts"
   },
   "repository": {
     "type": "git",
