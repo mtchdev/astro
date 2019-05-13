@@ -9,12 +9,13 @@ export class UserController extends Controller {
 
     async getUsers() {
         var users = await new User().all();
-        
+
         return this.respondWithSuccess(users);
     }
 
-    async getUser(request: Request) {
-        var input = request.body;
+    async getUser(request: any) {
+        var input = request.params;
+        console.log(input['username'])
 
         var user = await new User().where({
             username: input['username']
@@ -26,7 +27,7 @@ export class UserController extends Controller {
         return this.respondWithSuccess(user);
     }
 
-    async addUser(request: Request) {
+    async addUser(request: any) {
         var input = request.body;
         var user = new User();
 
@@ -39,7 +40,7 @@ export class UserController extends Controller {
         return this.respondWithSuccess();
     }
 
-    async changeUsername(request: Request) {
+    async changeUsername(request: any) {
         var input = request.body;
 
         new User().update({

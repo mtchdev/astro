@@ -45,7 +45,7 @@ export class DBQuery implements DB, SQLQueryModel {
     }
 
     where(params: any) : Promise<QueryResult> {
-        let query = "SELECT * FROM ?? WHERE ?? = ?";
+        let query = "SELECT * FROM ?? WHERE ";
         let prepare = [
             this.model
         ];
@@ -54,7 +54,7 @@ export class DBQuery implements DB, SQLQueryModel {
 
         for (var i in params) {
             i1++;
-            if (i1 !== Object.keys(params.values).length)
+            if (i1 !== Object.keys(params).length)
                 query += `\`${i}\`` + " = ? AND ";
             else
                 query += `\`${i}\`` + " = ?";
@@ -63,7 +63,6 @@ export class DBQuery implements DB, SQLQueryModel {
         }
 
         let serialized = mysql.format(query, prepare);
-        console.log(serialized)
 
         return new Promise<QueryResult>((resolve: any, reject: any) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
