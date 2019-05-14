@@ -15,7 +15,6 @@ export class UserController extends Controller {
 
     async getUser(request: any) {
         var input = request.params;
-        console.log(input['username'])
 
         var user = await new User().where({
             username: input['username']
