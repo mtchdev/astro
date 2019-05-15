@@ -19,7 +19,9 @@ export class Http {
         if (typeof callback !== 'function')
             throw new Error('Callback must be a function.');
 
-        this.app.get(this.urlPrefix + url, (req: Request, res: Response) => {
+        this.app.get(this.urlPrefix + url, async (req: Request, res: Response) => {
+            await this.verifyIp(req, res);
+
             if (middleware == undefined)
                 return callback(req, res);
 
@@ -36,7 +38,9 @@ export class Http {
         if (typeof callback !== 'function')
             throw new Error('Callback must be a function.');
 
-        this.app.post(this.urlPrefix + url, (req: Request, res: Response) => {
+        this.app.post(this.urlPrefix + url, async (req: Request, res: Response) => {
+            await this.verifyIp(req, res);
+
             if (middleware == undefined)
                 return callback(req, res);
 
@@ -53,7 +57,9 @@ export class Http {
         if (typeof callback !== 'function')
             throw new Error('Callback must be a function.');
 
-        this.app.put(this.urlPrefix + url, (req: Request, res: Response) => {
+        this.app.put(this.urlPrefix + url, async (req: Request, res: Response) => {
+            await this.verifyIp(req, res);
+
             if (middleware == undefined)
                 return callback(req, res);
 
@@ -70,7 +76,10 @@ export class Http {
         if (typeof callback !== 'function')
             throw new Error('Callback must be a function.');
 
-        this.app.delete(this.urlPrefix + url, (req: Request, res: Response) => {
+        this.app.delete(this.urlPrefix + url, async (req: Request, res: Response) => {
+            
+            await this.verifyIp(req, res);
+
             if (middleware == undefined)
                 return callback(req, res);
 
@@ -108,6 +117,21 @@ export class Http {
             callback(); // middleware passed
         else
             return;
+    }
+
+    verifyIp(req: any, resp: any) : Promise<boolean> {
+        return new Promise<boolean>((res, rej) => {
+            if (RouterConfig.allowed_ips.length == 0)
+                return res(true);
+            for (let i = 0; i < RouterConfig.allowed_ips.length; i++) {
+                if (RouterConfig.allowed_ips[i] == req.ip)
+                    res(true);
+                else {
+                    console.log('ip_verif_fail');
+                    return resp.send('Internal Error: ip_verif_fail. | IP \n\n' + req.ip + ' is not authorized to access this server.');
+                }
+            }
+        });
     }
 
 }
