@@ -1,5 +1,5 @@
 import { Instance } from '../services/instance';
-import { AppConfig } from '../../../config/app.config';
+import { RouterConfig } from '../../../config/router.config';
 
 export class Http {
 
@@ -9,10 +9,10 @@ export class Http {
     constructor() {
         this.app = Instance.app;
         
-        if (AppConfig.routes.api_prefix == '' || AppConfig.routes.api_prefix == null)
+        if (RouterConfig.api_prefix == '' || RouterConfig.api_prefix == null)
             this.urlPrefix = '/';
         else
-            this.urlPrefix = '/' + AppConfig.routes.api_prefix + '/';
+            this.urlPrefix = '/' + RouterConfig.api_prefix + '/';
     }
 
     get(url: string, callback: any, middleware?: any) {
