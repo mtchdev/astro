@@ -10,6 +10,7 @@
     "tsc:init": "tsc --init",
     "generate:controller": "ts-node vendor/gen/controller.generator.ts",
     "generate:model": "ts-node vendor/gen/model.generator.ts",
+    "generate:middleware": "ts-node vendor/gen/middleware.generator.ts",
     "build": "tsc",
     "test:paths": "ts-node -r tsconfig-paths/register index.ts"
   },
