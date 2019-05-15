@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register index.ts",
-    "start:dev": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' index.ts",
+    "start": "node index.js",
+    "start:dev": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register index.ts",
     "start:prod": "ts-node index.ts",
     "tsc:init": "tsc --init",
     "generate:controller": "ts-node vendor/gen/controller.generator.ts",
     "generate:model": "ts-node vendor/gen/model.generator.ts",
-    "build:paths": "ts-node -r tsconfig-paths/register index.ts"
+    "build": "tsc",
+    "test:paths": "ts-node -r tsconfig-paths/register index.ts"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/spliitzx/astro/issues"
   },
