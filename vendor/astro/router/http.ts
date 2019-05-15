@@ -127,7 +127,6 @@ export class Http {
                 if (RouterConfig.allowed_ips[i] == req.ip)
                     res(true);
                 else {
-                    console.log('ip_verif_fail');
                     return resp.send('Internal Error: ip_verif_fail. | IP \n\n' + req.ip + ' is not authorized to access this server.');
                 }
             }
