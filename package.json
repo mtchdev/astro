@@ -1,0 +1,26 @@
+{
+  "name": "astro-installer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node main.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.0.0",
+    "fs-extra": "^7.0.1",
+    "npm": "^6.9.0",
+    "readline": "^1.3.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5",
+    "unzipper": "^0.9.11",
+    "yesno": "^0.2.0"
+  },
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "log-update": "^3.2.0"
+  }
+}
