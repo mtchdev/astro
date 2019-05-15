@@ -14,3 +14,7 @@ http.get('user/:username', (req: any, res: any) => new UserController(res).getUs
 http.put('user/username', (req: any, res: any) => new UserController(res).changeUsername(req));
 
 http.post('user', (req: any, res: any) => new UserController(res).addUser(req));
+
+http.get('*', (req: any, res: any) => {
+    res.status(404).send('Resource not found.');
+});
