@@ -16,7 +16,7 @@ async function generate() {
 
     for (let i = 0; i < directories.length; i++) {
         let dir = await fs.readFileSync(__dirname + '/schema/' + directories[i], "utf8");
-        await instance.query(mysql.format(dir), (err: any, success: any) => {
+        instance.query(mysql.format(dir), (err: any, success: any) => {
             if (err) {
                 throw new Error(err);
             }
