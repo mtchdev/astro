@@ -14,7 +14,9 @@ export class Middleware {
 
     exit() {
         this.responseHandler.error({
-            message: 'middleware_exit'
+            message: '403: Denied',
+            status: 403,
+            data: {error: 'middleware_fail'}
         });
         
         return false;
