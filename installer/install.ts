@@ -191,13 +191,13 @@ export class Installer {
 
     async copyFiles() : Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            fse.copy(__dirname + '/temp/extract', __dirname + '/temp/test-src').then(() => resolve()).catch((e) => reject(e));
+            fse.copy(__dirname + '/temp/extract', __dirname + '/../src').then(() => resolve()).catch((e) => reject(e));
         });
     }
     
     async checkExists() : Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            if (fs.existsSync(__dirname + '/temp/test-src'))
+            if (fs.existsSync(__dirname + '/../src'))
                 reject();
             else
                 resolve();
