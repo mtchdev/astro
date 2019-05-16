@@ -13,7 +13,7 @@
     "generate:middleware": "ts-node vendor/gen/middleware.generator.ts",
     "build": "tsc",
     "test:paths": "ts-node -r tsconfig-paths/register index.ts",
-    "db:build": "ts-node database/generator.ts"
+    "db:build": "ts-node database/DBFactory.ts"
   },
   "repository": {
     "type": "git",

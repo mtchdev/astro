@@ -24,7 +24,7 @@ async function generate() {
             console.log('Migrated ' + directories[i] + ' successfully.');
 
             if (i == directories.length - 1) {
-                console.log('Finished!');
+                console.log(`Finished! Successfully completed ${directories.length} ${directories.length === 1 ? 'migration' : 'migrations'}.`); 
                 return process.exit();
             }
         });
