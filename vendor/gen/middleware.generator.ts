@@ -2,7 +2,7 @@ const MiddlewareTemplate = `import { Middleware } from 'vendor/astro/http/Middle
 
 export class MiddlewareName extends Middleware {
 
-    constructor(data) {
+    constructor(private request, data) {
         super(data);
     }
 

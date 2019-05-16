@@ -2,7 +2,7 @@ import { Middleware } from 'vendor/astro/http/Middleware';
 
 export class AuthMiddleware extends Middleware {
 
-    constructor(data) {
+    constructor(private request, data) {
         super(data);
     }
 

@@ -26,11 +26,11 @@ export class Http {
                 return callback(req, res);
 
             if (middleware instanceof Array)
-                this.checkMiddlewareArray(middleware, res).then(() => {
+                this.checkMiddlewareArray(middleware, res, req).then(() => {
                     callback(req, res);
                 });
             else
-                this.middleware(middleware, res, () => callback(req, res));
+                this.middleware(middleware, res, req, () => callback(req, res));
         });
     }
 
@@ -45,11 +45,11 @@ export class Http {
                 return callback(req, res);
 
             if (middleware instanceof Array)
-                this.checkMiddlewareArray(middleware, res).then(() => {
+                this.checkMiddlewareArray(middleware, res, req).then(() => {
                     callback(req, res);
                 });
             else
-                this.middleware(middleware, res, () => callback(req, res));
+                this.middleware(middleware, res, req, () => callback(req, res));
         });
     }
 
@@ -64,11 +64,11 @@ export class Http {
                 return callback(req, res);
 
             if (middleware instanceof Array)
-                this.checkMiddlewareArray(middleware, res).then(() => {
+                this.checkMiddlewareArray(middleware, res, req).then(() => {
                     callback(req, res);
                 });
             else
-                this.middleware(middleware, res, () => callback(req, res));
+                this.middleware(middleware, res, req, () => callback(req, res));
         });
     }
 
@@ -84,19 +84,19 @@ export class Http {
                 return callback(req, res);
 
             if (middleware instanceof Array)
-                this.checkMiddlewareArray(middleware, res).then(() => {
+                this.checkMiddlewareArray(middleware, res, req).then(() => {
                     callback(req, res);
                 });
             else
-                this.middleware(middleware, res, () => callback(req, res));
+                this.middleware(middleware, res, req, () => callback(req, res));
         });
     }
 
-    checkMiddlewareArray(middleware: any[], res: any) : Promise<any> {
+    checkMiddlewareArray(middleware: any[], res: any, req: any) : Promise<any> {
         return new Promise<any>((resolve: any, reject: any) => {
             let passed = [];
             for (let i = 0; i < middleware.length; i++) {
-                this.middleware(middleware[i], res, () => passed.push(true));
+                this.middleware(middleware[i], res, req, () => passed.push(true));
                 
                 if (i == middleware.length - 1 && passed.length == middleware.length - 1)
                     resolve();
@@ -104,11 +104,11 @@ export class Http {
         });
     }
 
-    async middleware(controller: any, socket: any, callback: any) {
+    async middleware(controller: any, socket: any, request: any, callback: any) {
         if (typeof callback !== 'function')
             throw new Error('Callback on middleware is not a function.');
 
-        let res = await new controller(socket).run();
+        let res = await new controller(request, socket).run();
         
         if (typeof res !== 'boolean')
             throw new Error('Middleware return value is not a boolean.');
