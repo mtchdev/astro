@@ -21,7 +21,7 @@ async function generate() {
                 throw new Error(err);
             }
 
-            console.log('Migrated ' + directories[i] + ' successfully.');
+            console.log('Migrated ' + directories[i].replace(new RegExp(/.sql/, 'g'), '') + ' successfully.');
 
             if (i == directories.length - 1) {
                 console.log(`Finished! Successfully completed ${directories.length} ${directories.length === 1 ? 'migration' : 'migrations'}.`); 
