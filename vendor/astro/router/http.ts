@@ -152,3 +152,7 @@ export class Http {
     }
 
 }
+
+export class RouteResponses {
+    public static NotFound = (req: any) => `404: ${req.url} was not found on this server.`;
+}

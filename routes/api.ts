@@ -1,4 +1,4 @@
-import { Http } from 'vendor/astro/router/http';
+import { Http, RouteResponses } from 'vendor/astro/router/http';
 const http = new Http();
 
 /**
@@ -16,5 +16,5 @@ http.put('user/username', (req: any, res: any) => new UserController(res).change
 http.post('user', (req: any, res: any) => new UserController(res).addUser(req));
 
 http.get('*', (req: any, res: any) => {
-    res.status(404).send('Resource not found.');
+    res.status(404).send(RouteResponses.NotFound(req));
 });
