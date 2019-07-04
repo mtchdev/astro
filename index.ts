@@ -9,6 +9,7 @@ import * as bodyParser from 'body-parser';
  * Import required helpers and utilities
  */
 
+require('dotenv').config();
 import { serve } from 'vendor/astro/server/serve';
 import { Instance } from 'vendor/astro/services/instance';
 
