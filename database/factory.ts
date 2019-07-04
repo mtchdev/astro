@@ -4,7 +4,7 @@ import { DBConfig } from '../config/database.config';
 
 const instance = mysql.createConnection({
     ...DBConfig.mysql,
-    port: DBConfig.mysql.port || '3306'
+    port: DBConfig.mysql.port
 });
 
 instance.connect();
