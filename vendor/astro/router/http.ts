@@ -1,5 +1,6 @@
 import { Instance } from '../services/instance';
 import { RouterConfig } from '../../../config/router.config';
+import { Logger } from '../util/Logger';
 
 export class Http {
 
@@ -142,17 +143,15 @@ export class Http {
 
     private logAccess(req: any) {
         if (RouterConfig.log_requests) {
-            let date = new Date();
-            console.log(`[${this.parseDate(date.getHours())}:${this.parseDate(date.getMinutes())}:${this.parseDate(date.getSeconds())}] > ${req.ip == '::1' ? '127.0.0.1' : req.ip} accessed ${req.url}`);
+            Logger.log(`${req.ip == '::1' ? '127.0.0.1' : req.ip} accessed ${req.url}`);
         }
-    }
-
-    private parseDate(obj: any) {
-        return ('0' + obj).slice(-2);
     }
 
 }
 
 export class RouteResponses {
-    public static NotFound = (req: any) => `404: ${req.url} was not found on this server.`;
+    public static NotFound = (req: any) => {
+        Logger.log(`${req.url} failed: 404 Not Found`);
+        return `404: ${req.url} was not found on this server.`;
+    };
 }
