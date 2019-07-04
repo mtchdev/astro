@@ -13,6 +13,9 @@ export class Http {
             this.urlPrefix = '/';
         else
             this.urlPrefix = '/' + RouterConfig.api_prefix + '/';
+
+        if (RouterConfig.api_version !== '' || RouterConfig.api_version !== null)
+            this.urlPrefix += RouterConfig.api_version + '/';
     }
 
     get(url: string, callback: any, middleware?: any) {

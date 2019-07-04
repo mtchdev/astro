@@ -9,14 +9,12 @@ const instance = mysql.createConnection({
 
 instance.connect();
 
-generate();
-
-async function generate() {
+(async () => {
     let directories = await fs.readdirSync(__dirname + '/schema');
 
     for (let i = 0; i < directories.length; i++) {
         let dir = await fs.readFileSync(__dirname + '/schema/' + directories[i], "utf8");
-        instance.query(mysql.format(dir), (err: any, success: any) => {
+        instance.query(mysql.format(dir), (err: any) => {
             if (err) {
                 throw new Error(err);
             }
@@ -29,4 +27,4 @@ async function generate() {
             }
         });
     }
-}
+})();
