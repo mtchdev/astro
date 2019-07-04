@@ -124,16 +124,31 @@ export class Http {
 
     verifyIp(req: any, resp: any) : Promise<boolean> {
         return new Promise<boolean>((res, rej) => {
-            if (RouterConfig.allowed_ips.length == 0)
-                return res(true);
+            if (RouterConfig.allowed_ips.length == 0) {
+                this.logAccess(req);
+                res(true);
+            }
             for (let i = 0; i < RouterConfig.allowed_ips.length; i++) {
-                if (RouterConfig.allowed_ips[i] == req.ip)
+                if (RouterConfig.allowed_ips[i] == req.ip) {
+                    this.logAccess(req);
                     res(true);
+                }
                 else {
                     return resp.send('Internal Error: ip_verif_fail. | IP \n\n' + req.ip + ' is not authorized to access this server.');
                 }
             }
         });
+    }
+
+    private logAccess(req: any) {
+        if (RouterConfig.log_requests) {
+            let date = new Date();
+            console.log(`[${this.parseDate(date.getHours())}:${this.parseDate(date.getMinutes())}:${this.parseDate(date.getSeconds())}] > ${req.ip == '::1' ? '127.0.0.1' : req.ip} accessed ${req.url}`);
+        }
+    }
+
+    private parseDate(obj: any) {
+        return ('0' + obj).slice(-2);
     }
 
 }
