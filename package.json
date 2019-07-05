@@ -40,6 +40,7 @@
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "chalk": "^2.4.2",
     "ip": "^1.1.5",
     "tsconfig-paths": "^3.8.0"
   }

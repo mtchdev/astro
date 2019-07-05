@@ -12,7 +12,7 @@ export const DevEnvironment: Environment = {
                 // Spawn
                 require('../../index.ts');
                 if (ip.address() !== '127.0.0.1' || ip.address() !== '::1') {
-                    Logger.log('Warning: Host is not on a local address.');
+                    Logger.log('Host is not on a local address.', 'warn');
                 }
                 resolve();
             } catch (e) {
