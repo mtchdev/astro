@@ -1,4 +1,5 @@
 import { DevEnvironment } from '../vendor/environments/dev.env';
+import { ProdEnvironment } from '../vendor/environments/prod.env';
 
 export const AppConfig = {
     name: process.env.APP_NAME || 'Astro',
