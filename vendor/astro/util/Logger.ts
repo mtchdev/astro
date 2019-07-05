@@ -19,6 +19,9 @@ export class Logger {
             case "error":
                 log(`${newDate} ${chalk.bgRed('ERROR')} > ${message}`);
                 break;
+            case "success":
+                log(`${newDate} ${chalk.bgGreen('SUCCESS')} > ${message}`);
+                break;
         }
 
         function parseDate(obj: any) {

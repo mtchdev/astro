@@ -9,7 +9,7 @@ export var serve = {
         if (typeof AppConfig.port !== 'number')
             throw new Error('Port is not a number.');
 
-        express.listen(AppConfig.port, () => Logger.log(`Server running on host ${ip.address()}:${AppConfig.port}`)).on('error', (data) => {
+        express.listen(AppConfig.port, () => Logger.log(`Server running on host ${ip.address()}:${AppConfig.port}`, 'success')).on('error', (data) => {
             switch (data.code) {
                 case "EADDRINUSE":
                     Logger.log(`Port ${AppConfig.port} is already in use.`, 'error');
