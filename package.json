@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "start:dev": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register index.ts",
+    "start:dev": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register exec.ts",
     "start:prod": "ts-node index.ts",
     "tsc:init": "tsc --init",
     "generate:controller": "ts-node vendor/gen/controller.generator.ts",
@@ -13,7 +13,8 @@
     "generate:middleware": "ts-node vendor/gen/middleware.generator.ts",
     "build": "tsc",
     "test:paths": "ts-node -r tsconfig-paths/register index.ts",
-    "db:build": "ts-node migrate.ts"
+    "db:build": "ts-node migrate.ts",
+    "start:test": "ts-node exec.ts"
   },
   "repository": {
     "type": "git",
