@@ -2,19 +2,17 @@
   "name": "astro",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "exec.js",
   "scripts": {
-    "start": "node index.js",
-    "start:dev": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register exec.ts",
-    "start:prod": "ts-node index.ts",
-    "tsc:init": "tsc --init",
+    "start": "node exec.js",
+    "start:watch": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register exec.ts",
+    "start:dev": "ts-node -r tsconfig-paths/register exec.ts",
     "generate:controller": "ts-node vendor/gen/controller.generator.ts",
     "generate:model": "ts-node vendor/gen/model.generator.ts",
     "generate:middleware": "ts-node vendor/gen/middleware.generator.ts",
     "build": "tsc",
     "test:paths": "ts-node -r tsconfig-paths/register index.ts",
-    "db:build": "ts-node migrate.ts",
-    "start:test": "ts-node exec.ts"
+    "db:build": "ts-node migrate.ts"
   },
   "repository": {
     "type": "git",
