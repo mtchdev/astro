@@ -1,6 +1,7 @@
 import * as mysql from 'mysql';
 import { DBConfig } from '../../../config/database.config';
 import { DB, QueryResult, SQLQueryModel, SQLResultTransformer, ToMatch, Insert, Update } from './namespaces/Database';
+import { Logger } from '../util/Logger';
 
 export class DBQuery implements DB, SQLQueryModel {
 
@@ -36,8 +37,11 @@ export class DBQuery implements DB, SQLQueryModel {
 
         return new Promise<QueryResult>((resolve: any, reject: any) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
-                if (err)
-                    throw new Error(err);
+                if (err) {
+                    const x = err.toString().replace('Error: ', '');
+                    Logger.log(`MySQL: ${x}`, 'error');
+                    reject(x);
+                }
 
                 resolve(SQLResultTransformer(result));
             });
@@ -66,8 +70,11 @@ export class DBQuery implements DB, SQLQueryModel {
 
         return new Promise<QueryResult>((resolve: any, reject: any) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
-                if (err)
-                    throw new Error(err);
+                if (err) {
+                    const x = err.toString().replace('Error: ', '');
+                    Logger.log(`MySQL: ${x}`, 'error');
+                    reject(x);
+                }
 
                 resolve(SQLResultTransformer(result));
             });
@@ -100,8 +107,11 @@ export class DBQuery implements DB, SQLQueryModel {
 
         return new Promise<QueryResult>((resolve: any, reject: any) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
-                if (err)
-                    throw new Error(err);
+                if (err) {
+                    const x = err.toString().replace('Error: ', '');
+                    Logger.log(`MySQL: ${x}`, 'error');
+                    reject(x);
+                }
 
                 if (result.insertId)
                     resolve(SQLResultTransformer(result.insertId));
@@ -144,8 +154,11 @@ export class DBQuery implements DB, SQLQueryModel {
 
         return new Promise<QueryResult>((res, rej) => {
             this.instance.query(serialized, (err: any, result: any, fields: any) => {
-                if (err)
-                    throw new Error(err);
+                if (err) {
+                    const x = err.toString().replace('Error: ', '');
+                    Logger.log(`MySQL: ${x}`, 'error');
+                    rej(x);
+                }
 
                 res(result);
             })
