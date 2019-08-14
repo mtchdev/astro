@@ -35,12 +35,14 @@ export class Controller {
         }
     }
 
-    setState(newObj: any) : void {
+    setState(newObj: any) : object {
         this.state = {
             ...this.state,
             newObj
         };
         state.internal = newObj;
+
+        return this.state;
     }
 
 }
