@@ -16,7 +16,13 @@ export class Controller {
     }
 
     respondWithSuccess(message?: any) : void {
-        this.responseHandler.success(message);
+        if (typeof message === 'string') {
+            this.responseHandler.success({message: message});
+        } else if (typeof message === 'number') {
+            this.responseHandler.success({status: message});
+        } else {
+            this.responseHandler.success({data: message, message: 'success'});
+        }
     }
 
     respondWithError(state?: string | number, code?: number) : void {
