@@ -1,12 +1,12 @@
 import { Response } from '../util/Response';
 import { state } from '../util/State';
 
-import { getManager } from 'typeorm';
+import { getManager, EntityManager } from 'typeorm';
 
 export class Controller {
 
     public state: any;
-    public db = getManager();
+    public db = <EntityManager>getManager();
 
     private responseHandler: Response;
 
