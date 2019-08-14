@@ -1,9 +1,10 @@
 import { Controller } from 'vendor/astro/http/Controller';
 import { Request } from 'express';
 import { User } from 'app/entities/User';
+import bcrypt from 'bcrypt';
 
 export class UserController extends Controller {
-
+    
     constructor(data) {
         super(data);
     }
@@ -25,6 +26,16 @@ export class UserController extends Controller {
         }
 
         return this.respondWithSuccess(user);
+    }
+
+    async addUser(request: Request) {
+        let user = new User();
+        user.username = request.body.username;
+        user.email = request.body.email;
+        user.password = await bcrypt.hash(request.body.password, 10);
+        this.db.save(user);
+
+        return this.respondWithSuccess();
     }
 
 }
