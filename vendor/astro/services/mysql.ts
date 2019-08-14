@@ -1,6 +1,7 @@
 import { DBConfig } from '../../../config/database.config';
+import { AppConfig } from '../../../config/app.config';
 import { Logger } from '../util/Logger';
-import { Connection, createConnection } from 'typeorm';
+import { Connection, createConnection, Entity } from 'typeorm';
 
 var connection: Connection;
 
@@ -14,11 +15,13 @@ export async function createInstance() {
     }
 
     try {
+        let entityUrl: string = 'app/models/*{.js,ts}';
+        entityUrl = !AppConfig.environment.isDev ? entityUrl = AppConfig.buildOutput + entityUrl : entityUrl;
         connection = await createConnection({
             ...DBConfig.mysql,
             type: 'mysql',
             entities: [
-                'app/models/*{.ts,.js}'
+                entityUrl
             ]
         });
 
@@ -27,13 +30,14 @@ export async function createInstance() {
         let error = <string>e.message;
         
         if (error.includes('ECONNREFUSED')) {
-            Logger.log(`${e}. Retrying...`, 'error');
+            Logger.log(`DB: ${e}. Retrying...`, 'error');
 
             setTimeout(() => {
                 createInstance();
             }, 5000);
         } else {
-            Logger.log(e, 'error');
+            console.log(e)
+            Logger.log(`DB: ${e}`, 'error');
         }
     }
 }

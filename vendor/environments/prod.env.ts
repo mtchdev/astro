@@ -11,7 +11,7 @@ export const ProdEnvironment: Environment = {
                 RouterConfig.log_requests = false;
                 
                 // Spawn
-                require('../../index.ts');
+                require('../../index');
                 resolve();
             } catch (e) {
                 reject(e);

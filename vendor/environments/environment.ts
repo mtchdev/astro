@@ -1,4 +1,5 @@
 export interface Environment {
     useLocal: boolean,
-    process: any
+    process: any,
+    isDev?: boolean
 }
