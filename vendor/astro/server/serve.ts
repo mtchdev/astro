@@ -25,8 +25,8 @@ export var serve = {
             Logger.log('Router log mode enabled. All requests will be logged.');
         }
     },
-    halt: (instance: any) => {
-        instance.close();
-        return console.info('Server instance shut down.');
+    halt: () => {
+        Logger.log('Server shutting down...', 'warn');
+        process.exit();
     }
 }

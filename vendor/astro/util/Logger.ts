@@ -1,10 +1,12 @@
 const chalk = require('chalk');
 
+type LoggerStates = 'warn' | 'info' | 'error' | 'success';
+
 export class Logger {
 
     constructor() {}
 
-    public static log = (message: string, state: string = 'info'): void => {
+    public static log = (message: string, state: LoggerStates = 'info'): void => {
         const date = new Date();
         const newDate = `[${parseDate(date.getHours())}:${parseDate(date.getMinutes())}:${parseDate(date.getSeconds())}]`;
         const log = console.log;

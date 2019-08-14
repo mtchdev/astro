@@ -1,14 +1,11 @@
 import { AppConfig } from './config/app.config';
 import { Logger } from './vendor/astro/util/Logger';
 import { serve } from './vendor/astro/server/serve';
-import { Instance } from 'vendor/astro/services/instance';
 
 AppConfig.environment.process();
 
 process.on('SIGINT', () => {
-    Logger.log('Stopping server...', 'warn');
-    // serve.halt(Instance.app);
-    process.exit();
+    serve.halt();
 });
 
 const rl = require('readline').createInterface({
@@ -18,5 +15,10 @@ const rl = require('readline').createInterface({
 });
 
 rl.on('line', (chunk: string) => {
-    switch (chunk) {}
+    switch (chunk) {
+        // an elegant way to stop the process
+        case "stop":
+            serve.halt();
+            break;
+    }
 });
