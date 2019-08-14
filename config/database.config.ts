@@ -1,4 +1,5 @@
 export const DBConfig = {
+    enabled: false,
     mysql: {
         host: process.env.DB_HOST || '127.0.0.1',
         port: Number.parseInt(process.env.DB_PORT, 0x0) || 3306,

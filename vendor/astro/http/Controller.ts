@@ -1,5 +1,5 @@
 import { Response } from '../util/Response';
-import { state } from '../util/State';
+import { state, StateInterface } from '../util/State';
 
 import { getManager, EntityManager } from 'typeorm';
 
@@ -35,7 +35,7 @@ export class Controller {
         }
     }
 
-    setState(newObj: any) : object {
+    setState(newObj: any) : StateInterface {
         this.state = {
             ...this.state,
             newObj

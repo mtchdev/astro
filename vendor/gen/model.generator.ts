@@ -15,6 +15,7 @@ export class modelName extends Model {
 
 import fs from 'fs';
 import * as readline from 'readline';
+import { DBConfig } from '../../config/database.config';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -24,6 +25,10 @@ const rl = readline.createInterface({
 cli();
 
 function cli() : void {
+    if (!DBConfig.enabled) {
+        console.log('Warning! Database integration is disabled in database.config\n\n');
+    }
+
     rl.question('Model Name: ', (name: string) => {
         rl.question('DB Table: ', (table: string) => generate(ControllerTemplate, name, table));
     });

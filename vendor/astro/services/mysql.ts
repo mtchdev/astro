@@ -9,6 +9,10 @@ export async function createInstance() {
         return false;
     }
 
+    if (!DBConfig.enabled) {
+        return Logger.log('Database integration is disabled.', 'warn');
+    }
+
     try {
         connection = await createConnection({
             ...DBConfig.mysql,
