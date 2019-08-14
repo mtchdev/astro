@@ -1,7 +1,7 @@
 import { Model } from 'vendor/astro/http/Model';
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity()
+@Entity('users')
 export class User extends Model {
 
     @PrimaryGeneratedColumn()

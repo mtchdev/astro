@@ -19,8 +19,14 @@ export class Controller {
         this.responseHandler.success(message);
     }
 
-    respondWithError(message?: any) : void {
-        this.responseHandler.error(message);
+    respondWithError(state?: string | number, code?: number) : void {
+        if (state && code) {
+            this.responseHandler.error({message: state.toString(), status: code});
+        } else if (state && typeof state === 'string') {
+            this.responseHandler.error({message: state});
+        } else if (state && typeof state === 'number') {
+            this.responseHandler.error({status: state});
+        }
     }
 
     setState(newObj: any) : void {

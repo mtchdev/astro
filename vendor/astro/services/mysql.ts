@@ -12,12 +12,15 @@ export async function createInstance() {
     try {
         connection = await createConnection({
             ...DBConfig.mysql,
-            type: 'mysql'
+            type: 'mysql',
+            entities: [
+                'app/models/*{.ts,.js}'
+            ]
         });
 
-        connection.connect();
         Logger.log('Connected to database.');
     } catch (e) {
+        console.log('I FALL HERE')
         Logger.log(e);
     }
 }
