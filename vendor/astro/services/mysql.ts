@@ -20,8 +20,17 @@ export async function createInstance() {
 
         Logger.log('Connected to database.');
     } catch (e) {
-        console.log('I FALL HERE')
-        Logger.log(e);
+        let error = <string>e.message;
+        
+        if (error.includes('ECONNREFUSED')) {
+            Logger.log(`${e}. Retrying...`, 'error');
+
+            setTimeout(() => {
+                createInstance();
+            }, 5000);
+        } else {
+            Logger.log(e, 'error');
+        }
     }
 }
 

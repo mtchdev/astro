@@ -5,7 +5,7 @@
   "main": "exec.js",
   "scripts": {
     "start": "node exec.js",
-    "start:watch": "nodemon --watch '**/*.ts' --ignore '**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register exec.ts",
+    "start:watch": "nodemon --watch \"**/*.ts\" --ignore \"**/*.spec.ts\" --exec \"ts-node\" -r tsconfig-paths/register exec.ts",
     "start:dev": "ts-node -r tsconfig-paths/register exec.ts",
     "generate:controller": "ts-node vendor/gen/controller.generator.ts",
     "generate:model": "ts-node vendor/gen/model.generator.ts",
