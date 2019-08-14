@@ -1,6 +1,6 @@
 import { Controller } from 'vendor/astro/http/Controller';
 import { Request } from 'express';
-import { User } from 'app/models/User';
+import { User } from 'app/entities/User';
 
 export class UserController extends Controller {
 
