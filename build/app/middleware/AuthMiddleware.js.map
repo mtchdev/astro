@@ -1,1 +1,0 @@
-{"version":3,"file":"AuthMiddleware.js","sourceRoot":"","sources":["../../../app/middleware/AuthMiddleware.ts"],"names":[],"mappings":";;AAAA,6DAA0D;AAE1D,MAAa,cAAe,SAAQ,uBAAU;IAE1C,YAAoB,OAAO,EAAE,IAAI;QAC7B,KAAK,CAAC,IAAI,CAAC,CAAC;QADI,YAAO,GAAP,OAAO,CAAA;IAE3B,CAAC;IAED,GAAG;QACC,OAAO,IAAI,CAAC,IAAI,EAAE,CAAC;IACvB,CAAC;CAEJ;AAVD,wCAUC"}
