@@ -1,14 +1,8 @@
-const ControllerTemplate = `import { Model } from 'vendor/astro/http/Model';
+const ModelTemplate = `import { Model } from 'vendor/astro/http/Model';
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
+@Entity(tableName)
 export class modelName extends Model {
-
-    constructor() {
-        super(tableName);
-
-        this.table = tableName; // DB table name
-        this.fillable = []; // Fillable DB columns
-        this.noReturn = []; // Data to not return on a SELECT * FROM request
-    }
 
 }
 `;
@@ -30,7 +24,7 @@ function cli() : void {
     }
 
     rl.question('Model Name: ', (name: string) => {
-        rl.question('DB Table: ', (table: string) => generate(ControllerTemplate, name, table));
+        rl.question('DB Table: ', (table: string) => generate(ModelTemplate, name, table));
     });
 }
 

@@ -18,7 +18,7 @@ export async function createInstance() {
             ...DBConfig.mysql,
             type: 'mysql',
             entities: [
-                'app/entities/*{.ts,.js}'
+                'app/models/*{.ts,.js}'
             ]
         });
 

@@ -1,12 +1,14 @@
 const ControllerTemplate = `import { Controller } from 'vendor/astro/http/Controller';
+import { Request } from 'express';
 
 export class ControllerName extends Controller {
-
+    
     constructor(data) {
         super(data);
     }
 
 }
+
 `;
 
 import fs from 'fs';
