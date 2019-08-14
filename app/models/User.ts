@@ -1,18 +1,16 @@
 import { Model } from 'vendor/astro/http/Model';
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
+@Entity()
 export class User extends Model {
 
-    public username: string;
-    public email: string;
-    public password: string;
+    @PrimaryGeneratedColumn()
     public id: number;
-
-    constructor() {
-        super('users');
-
-        this.table = 'users'; // DB table name
-        this.fillable = ['username', 'email', 'password']; // Fillable DB columns
-        this.noReturn = []; // Data to not return on a SELECT * FROM request
-    }
+    @Column()
+    public username: string;
+    @Column()
+    public email: string;
+    @Column()
+    public password: string;
 
 }

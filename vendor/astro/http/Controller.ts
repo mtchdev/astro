@@ -1,9 +1,12 @@
 import { Response } from '../util/Response';
 import { state } from '../util/State';
 
+import { getManager } from 'typeorm';
+
 export class Controller {
 
     public state: any;
+    public db = getManager();
 
     private responseHandler: Response;
 
