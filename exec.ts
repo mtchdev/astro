@@ -10,3 +10,13 @@ process.on('SIGINT', () => {
     // serve.halt(Instance.app);
     process.exit();
 });
+
+const rl = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+rl.on('line', (chunk: string) => {
+    switch (chunk) {}
+});
