@@ -3,7 +3,7 @@ import Log from 'vendor/astro/util/Logger';
 import { RouterConfig } from 'config/router.config';
 
 export const ProdEnvironment: Environment = {
-    trigger: 'prod', // The trigger used in NODE_ENV=
+    trigger: 'prod', // The trigger used in NODE_ENV= | this supports arrays!
     useLocal: true,
     process: (): Promise<void|string> => {
         return new Promise(async (resolve, reject) => {

@@ -3,7 +3,7 @@ import Log from 'vendor/astro/util/Logger';
 const ip = require('ip');
 
 export const DevEnvironment: Environment = {
-    trigger: 'dev', // The trigger used in NODE_ENV=
+    trigger: 'dev', // The trigger used in NODE_ENV= | this supports arrays!
     useLocal: true,
     process: (): Promise<void|string> => {
         return new Promise(async (resolve, reject) => {

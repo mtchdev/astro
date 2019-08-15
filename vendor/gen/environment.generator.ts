@@ -2,7 +2,7 @@ const EnvTemplate = `import { Environment } from 'vendor/astro/entities/environm
 import Log from 'vendor/astro/util/Logger';
 
 export const envName: Environment = {
-    trigger: 'triggerName', // The trigger used in NODE_ENV=
+    trigger: 'triggerName', // The trigger used in NODE_ENV= | this supports arrays!
     process: (): Promise<void|string> => {
         return new Promise(async (resolve, reject) => {
             try {
