@@ -11,6 +11,7 @@
     "generate:controller": "ts-node vendor/gen/controller.generator.ts",
     "generate:model": "ts-node vendor/gen/model.generator.ts",
     "generate:middleware": "ts-node vendor/gen/middleware.generator.ts",
+    "generate:environment": "ts-node vendor/gen/environment.generator.ts",
     "build": "tsc && node ./env-factory.js",
     "test:paths": "ts-node -r tsconfig-paths/register index.ts",
     "db:build": "ts-node migrate.ts"

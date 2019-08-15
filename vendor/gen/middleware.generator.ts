@@ -1,8 +1,9 @@
 const MiddlewareTemplate = `import { Middleware } from 'vendor/astro/http/Middleware';
+import { Request, Response } from 'express';
 
 export class MiddlewareName extends Middleware {
 
-    constructor(private request, data) {
+    constructor(private request: Request, data: Response) {
         super(data);
     }
 
@@ -22,7 +23,7 @@ const rl = readline.createInterface({
 
 cli();
 
-function cli():void {
+function cli(): void {
     rl.question('Middleware Name: ', (ans: string) => generate(MiddlewareTemplate, ans));
 }
 

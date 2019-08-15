@@ -21,7 +21,7 @@ const rl = readline.createInterface({
 
 cli();
 
-function cli():void {
+function cli(): void {
     rl.question('Controller Name: ', (ans: string) => generate(ControllerTemplate, ans));
 }
 

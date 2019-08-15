@@ -1,5 +1,5 @@
 export interface Environment {
-    useLocal: boolean,
+    useLocal?: boolean,
     process: any,
     trigger: string
 }
