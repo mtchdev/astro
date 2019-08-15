@@ -1,18 +1,17 @@
 import { Responder } from '../util/Response';
-import { state, StateInterface } from '../util/State';
 import { Response } from 'express';
-
 import { getManager, EntityManager } from 'typeorm';
+import State from '../util/State';
 
 export class Controller {
 
-    public state: any;
+    public state: object;
     public db: EntityManager = getManager();
 
     private responseHandler: Responder;
 
     constructor(socket: Response) {
-        this.state = <object>state.internal;
+        this.state = State.storage;
         this.responseHandler = new Responder(socket);
     }
 
@@ -44,14 +43,15 @@ export class Controller {
         }
     }
 
-    setState(newObj: object): StateInterface {
-        this.state = {
-            ...this.state,
-            newObj
-        };
-        state.internal = this.state;
+    setState(newObj: object): object {
+        State.setState(newObj);
+        this.refreshState();
 
         return this.state;
+    }
+
+    private refreshState(): void {
+        this.state = State.storage;
     }
 
 }

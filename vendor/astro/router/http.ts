@@ -132,7 +132,7 @@ export class Http {
 
 }
 
-export class RouteResponses {
+export abstract class RouteResponses {
     public static NotFound = (req: Request): string => {
         Log(`${req.url} failed: 404 Not Found`);
         return `404: ${req.url} was not found on this server.`;

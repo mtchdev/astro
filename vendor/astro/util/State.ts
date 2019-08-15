@@ -1,7 +1,18 @@
-export var state: StateInterface = {
-    internal: {}
-}
+export default abstract class State {
+    public static storage: object;
 
-export interface StateInterface {
-    internal: object;
+    static setState(values: object): void {
+        this.storage = values;
+    }
+
+    static setAndPersist(values: object): void {
+        this.storage = {
+            ...this.storage,
+            ...values
+        };
+    }
+
+    static setSpecificRoot(key: string, value: any): void {
+        this.storage[key] = value;
+    }
 }
