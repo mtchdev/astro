@@ -5,7 +5,7 @@ import { RouterConfig } from 'config/router.config';
 export const ProdEnvironment: Environment = {
     trigger: 'prod', // The trigger used in NODE_ENV=
     useLocal: true,
-    process: (): Promise<any> => {
+    process: (): Promise<void|string> => {
         return new Promise(async (resolve, reject) => {
             try {
                 Log('Starting server in production environment...');
@@ -15,7 +15,7 @@ export const ProdEnvironment: Environment = {
                 require('../index');
                 resolve();
             } catch (e) {
-                reject(e);
+                reject(`${e}`);
             }
         });
     }

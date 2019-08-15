@@ -5,7 +5,7 @@ const ip = require('ip');
 export const DevEnvironment: Environment = {
     trigger: 'dev', // The trigger used in NODE_ENV=
     useLocal: true,
-    process: (): Promise<any> => {
+    process: (): Promise<void|string> => {
         return new Promise(async (resolve, reject) => {
             try {
                 Log('Starting server in development environment...');
@@ -17,7 +17,7 @@ export const DevEnvironment: Environment = {
                 }
                 resolve();
             } catch (e) {
-                reject(e);
+                reject(`${e}`);
             }
         });
     }
