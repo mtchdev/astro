@@ -3,10 +3,11 @@
  */
 
 import express from 'express';
+import helmet from 'helmet';
 import * as bodyParser from 'body-parser';
 
 /**
- * Import required helpers and utilities
+ * Import required helpers and types
  */
 
 require('dotenv').config();
@@ -31,6 +32,8 @@ APP.use(bodyParser.json());
 APP.use(bodyParser.urlencoded({
     extended: true
 }));
+APP.use(helmet());
+
 createInstance();
 
 /**
