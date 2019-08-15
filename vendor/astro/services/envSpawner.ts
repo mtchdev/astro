@@ -5,7 +5,7 @@ import Log from '../util/Logger';
 export abstract class EnvSpawner {
 
     public static spawn(): void {
-        let env = process.env.NODE_ENV;
+        let env = process.env.NODE_ENV.replace(/ /g, '');
 
         if (ENVIRONMENTS.length === 0) {
             Log('No environment\'s available. Add some or check _environments.ts', 'error');
