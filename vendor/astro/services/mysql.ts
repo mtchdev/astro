@@ -16,7 +16,8 @@ export async function createInstance() {
 
     try {
         let entityUrl: string = 'app/models/*{.js,ts}';
-        entityUrl = !AppConfig.environment.isDev ? entityUrl = AppConfig.buildOutput + entityUrl:entityUrl;
+        let isDev = process.env.NODE_ENV === ('dev' || 'development');
+        entityUrl = !isDev ? entityUrl = AppConfig.buildOutput + entityUrl:entityUrl;
         connection = await createConnection({
             ...DBConfig.mysql,
             type: 'mysql',
