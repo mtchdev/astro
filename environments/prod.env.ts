@@ -1,8 +1,9 @@
-import { Environment } from './environment';
-import Log from '../astro/util/Logger';
+import { Environment } from 'vendor/astro/entities/environment';
+import Log from 'vendor/astro/util/Logger';
 import { RouterConfig } from 'config/router.config';
 
 export const ProdEnvironment: Environment = {
+    trigger: 'prod', // The trigger used in NODE_ENV=
     useLocal: true,
     process: (): Promise<any> => {
         return new Promise(async (resolve, reject) => {
@@ -11,7 +12,7 @@ export const ProdEnvironment: Environment = {
                 RouterConfig.log_requests = false;
                 
                 // Spawn
-                require('../../index');
+                require('../index');
                 resolve();
             } catch (e) {
                 reject(e);

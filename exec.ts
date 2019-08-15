@@ -2,14 +2,14 @@ import { AppConfig } from './config/app.config';
 import Log from 'vendor/astro/util/Logger';
 import { serve } from 'vendor/astro/server/serve';
 import { existsSync } from 'fs';
-import { envSpawner } from 'vendor/environments/spawner';
+import { EnvSpawner } from 'vendor/astro/services/envSpawner';
 
 if (!existsSync(__dirname.replace(new RegExp(/\\/, 'g'), '/') + '/.env')) {
     Log('Environment not found. Please rename .env.example to .env', 'error');
     process.exit();
 }
 
-envSpawner();
+EnvSpawner.spawn();
 
 process.on('SIGINT', () => {
     serve.halt();
