@@ -4,12 +4,14 @@ interface ResponseTemplate {
     data?: any
 };
 
-export class Response {
+import { Response } from 'express';
+
+export class Responder {
     private response: ResponseTemplate;
 
-    constructor(private sender: any) { }
+    constructor(private sender: Response) { }
 
-    success(message: ResponseTemplate) {
+    success(message?: ResponseTemplate): Response {
         if (!message)
             message = {
                 status: null,
@@ -30,7 +32,7 @@ export class Response {
         return this.sender.send(this.response);
     }
 
-    error(message: ResponseTemplate) {
+    error(message?: ResponseTemplate): Response {
         if (!message)
             message = {
                 status: null,

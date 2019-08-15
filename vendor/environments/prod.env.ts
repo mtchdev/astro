@@ -1,5 +1,5 @@
 import { Environment } from './environment';
-import { Logger } from '../astro/util/Logger';
+import Log from '../astro/util/Logger';
 import { RouterConfig } from 'config/router.config';
 
 export const ProdEnvironment: Environment = {
@@ -7,7 +7,7 @@ export const ProdEnvironment: Environment = {
     process: (): Promise<any> => {
         return new Promise(async (resolve, reject) => {
             try {
-                Logger.log('Starting server in production environment...');
+                Log('Starting server in production environment...');
                 RouterConfig.log_requests = false;
                 
                 // Spawn

@@ -1,10 +1,11 @@
 import { Instance } from '../services/instance';
+import { Request, Response, Express } from 'express';
 import { RouterConfig } from '../../../config/router.config';
-import { Logger } from '../util/Logger';
+import Log from '../util/Logger';
 
 export class Http {
 
-    private app: any;
+    private app: Express;
     private urlPrefix: string;
 
     constructor() {
@@ -19,10 +20,7 @@ export class Http {
             this.urlPrefix += RouterConfig.api_version + '/';
     }
 
-    get(url: string, callback: any, middleware?: any) {
-        if (typeof callback !== 'function')
-            throw new Error('Callback must be a function.');
-
+    get(url: string, callback: Function, middleware?: Array<object> | object): void {
         this.app.get(this.urlPrefix + url, async (req: Request, res: Response) => {
             await this.verifyIp(req, res);
 
@@ -38,10 +36,7 @@ export class Http {
         });
     }
 
-    post(url: string, callback: any, middleware?: any) {
-        if (typeof callback !== 'function')
-            throw new Error('Callback must be a function.');
-
+    post(url: string, callback: Function, middleware?: any): void {
         this.app.post(this.urlPrefix + url, async (req: Request, res: Response) => {
             await this.verifyIp(req, res);
 
@@ -57,10 +52,7 @@ export class Http {
         });
     }
 
-    put(url: string, callback: any, middleware?: any) {
-        if (typeof callback !== 'function')
-            throw new Error('Callback must be a function.');
-
+    put(url: string, callback: Function, middleware?: any): void {
         this.app.put(this.urlPrefix + url, async (req: Request, res: Response) => {
             await this.verifyIp(req, res);
 
@@ -76,10 +68,7 @@ export class Http {
         });
     }
 
-    delete(url: string, callback: any, middleware?: any) {
-        if (typeof callback !== 'function')
-            throw new Error('Callback must be a function.');
-
+    delete(url: string, callback: Function, middleware?: any): void {
         this.app.delete(this.urlPrefix + url, async (req: Request, res: Response) => {
             
             await this.verifyIp(req, res);
@@ -96,8 +85,8 @@ export class Http {
         });
     }
 
-    checkMiddlewareArray(middleware: any[], res: any, req: any) : Promise<any> {
-        return new Promise<any>((resolve: any, reject: any) => {
+    checkMiddlewareArray(middleware: Array<object>, res: any, req: Request): Promise<void> {
+        return new Promise<void>((resolve: any, reject: any) => {
             let passed = [];
             for (let i = 0; i < middleware.length; i++) {
                 this.middleware(middleware[i], res, req, () => passed.push(true));
@@ -108,22 +97,16 @@ export class Http {
         });
     }
 
-    async middleware(controller: any, socket: any, request: any, callback: any) {
-        if (typeof callback !== 'function')
-            throw new Error('Callback on middleware is not a function.');
-
-        let res = await new controller(request, socket).run();
-        
-        if (typeof res !== 'boolean')
-            throw new Error('Middleware return value is not a boolean.');
+    async middleware(controller: any, res: Response, req: Request, callback: Function) {
+        let result: boolean = await new controller(req, res).run();
             
-        if (res == true)
+        if (result == true)
             callback(); // middleware passed
         else
             return;
     }
 
-    verifyIp(req: any, resp: any) : Promise<boolean> {
+    verifyIp(req: Request, resp: Response): Promise<boolean> {
         return new Promise<boolean>((res, rej) => {
             if (RouterConfig.allowed_ips.length == 0) {
                 this.logAccess(req);
@@ -141,17 +124,17 @@ export class Http {
         });
     }
 
-    private logAccess(req: any) {
+    private logAccess(req: Request): void {
         if (RouterConfig.log_requests) {
-            Logger.log(`${req.ip == '::1' ? '127.0.0.1' : req.ip} accessed ${req.url}`);
+            Log(`${req.ip == '::1' ? '127.0.0.1':req.ip} accessed ${req.url}`);
         }
     }
 
 }
 
 export class RouteResponses {
-    public static NotFound = (req: any) => {
-        Logger.log(`${req.url} failed: 404 Not Found`);
+    public static NotFound = (req: Request): string => {
+        Log(`${req.url} failed: 404 Not Found`);
         return `404: ${req.url} was not found on this server.`;
     };
 }

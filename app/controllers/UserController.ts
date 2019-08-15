@@ -11,7 +11,7 @@ export class UserController extends Controller {
 
     async getUsers() {
         const users = await this.db.find(User);
-        return this.respondWithSuccess(users);
+        return this.respondWithSuccess<Array<User>>(users);
     }
 
     async getUser(request: Request) {
@@ -25,7 +25,7 @@ export class UserController extends Controller {
             return this.respondWithError('User not found.', 404);
         }
 
-        return this.respondWithSuccess(user);
+        return this.respondWithSuccess<User>(user);
     }
 
     async addUser(request: Request) {

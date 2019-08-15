@@ -1,12 +1,13 @@
 import { Middleware } from 'vendor/astro/http/Middleware';
+import { Request } from 'express';
 
 export class AuthMiddleware extends Middleware {
 
-    constructor(private request, data) {
+    constructor(private request: Request, data) {
         super(data);
     }
 
-    run() {
+    run(): boolean {
         return this.next();
     }
 

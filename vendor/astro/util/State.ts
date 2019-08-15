@@ -1,4 +1,4 @@
-export var state = {
+export var state: StateInterface = {
     internal: {}
 }
 

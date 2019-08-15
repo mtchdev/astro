@@ -1,4 +1,5 @@
 import { Http, RouteResponses } from 'vendor/astro/router/http';
+import { Response, Request } from 'express';
 const http = new Http();
 
 /**
@@ -8,9 +9,9 @@ const http = new Http();
 import { UserController } from 'app/controllers/UserController';
 import { AuthMiddleware } from 'app/middleware/AuthMiddleware';
 
-http.get('users', (req: any, res: any) => new UserController(res).getUsers());
-http.get('user/:username', (req: any, res: any) => new UserController(res).getUser(req));
+http.get('users', (req: Request, res: Response) => new UserController(res).getUsers(), AuthMiddleware);
+http.get('user/:username', (req: Request, res: Response) => new UserController(res).getUser(req));
 
-http.get('*', (req: any, res: any) => {
+http.get('*', (req: Request, res: any) => {
     res.status(404).send(RouteResponses.NotFound(req));
 });

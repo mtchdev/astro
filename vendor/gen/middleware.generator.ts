@@ -6,7 +6,7 @@ export class MiddlewareName extends Middleware {
         super(data);
     }
 
-    run() {
+    run(): boolean {
         return this.next();
     }
 
@@ -22,7 +22,7 @@ const rl = readline.createInterface({
 
 cli();
 
-function cli() : void {
+function cli():void {
     rl.question('Middleware Name: ', (ans: string) => generate(MiddlewareTemplate, ans));
 }
 

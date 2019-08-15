@@ -1,11 +1,12 @@
-import { Response } from '../util/Response';
+import { Responder } from '../util/Response';
+import { Response } from 'express';
 
 export class Middleware {
 
-    private responseHandler: Response;
+    private responseHandler: Responder;
 
-    constructor(private socket: any) {
-        this.responseHandler = new Response(socket);
+    constructor(socket: Response) {
+        this.responseHandler = new Responder(socket);
     }
 
     next() {

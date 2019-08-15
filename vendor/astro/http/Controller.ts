@@ -1,21 +1,25 @@
-import { Response } from '../util/Response';
+import { Responder } from '../util/Response';
 import { state, StateInterface } from '../util/State';
+import { Response } from 'express';
 
 import { getManager, EntityManager } from 'typeorm';
 
 export class Controller {
 
     public state: any;
-    public db = <EntityManager>getManager();
+    public db: EntityManager = getManager();
 
-    private responseHandler: Response;
+    private responseHandler: Responder;
 
-    constructor(socket: any) {
-        this.state = state.internal;
-        this.responseHandler = new Response(socket);
+    constructor(socket: Response) {
+        this.state = <object>state.internal;
+        this.responseHandler = new Responder(socket);
     }
 
-    respondWithSuccess(message?: any) : void {
+    respondWithSuccess<T = never>(message?: T): Response {
+        if (!message) {
+            return this.responseHandler.success();
+        }
         if (typeof message === 'string') {
             this.responseHandler.success({message: message});
         } else if (typeof message === 'number') {
@@ -25,22 +29,27 @@ export class Controller {
         }
     }
 
-    respondWithError(state?: string | number, code?: number) : void {
+    respondWithError<T = never>(state?: T, code?: number): Response {
+        if (!state) {
+            return this.responseHandler.error();
+        }
         if (state && code) {
             this.responseHandler.error({message: state.toString(), status: code});
         } else if (state && typeof state === 'string') {
             this.responseHandler.error({message: state});
         } else if (state && typeof state === 'number') {
             this.responseHandler.error({status: state});
+        } else {
+            this.responseHandler.error({data: state});
         }
     }
 
-    setState(newObj: any) : StateInterface {
+    setState(newObj: object): StateInterface {
         this.state = {
             ...this.state,
             newObj
         };
-        state.internal = newObj;
+        state.internal = this.state;
 
         return this.state;
     }

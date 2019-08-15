@@ -5,5 +5,5 @@ interface InstanceInterface {
 }
 
 export var Instance: InstanceInterface = {
-    app: null
+    app: undefined
 };

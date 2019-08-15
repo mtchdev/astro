@@ -1,32 +1,33 @@
 import { AppConfig } from '../../../config/app.config';
 import { RouterConfig } from '../../../config/router.config';
-import { Logger } from '../util/Logger';
+import Log from '../util/Logger';
+import { Express } from 'express';
 
 const ip = require('ip');
 
 export var serve = {
-    up: (express: any) => {
+    up: (express: Express): void => {
         if (typeof AppConfig.port !== 'number')
             throw new Error('Port is not a number.');
 
-        express.listen(AppConfig.port, () => Logger.log(`Server running on host ${ip.address()}:${AppConfig.port}`, 'success')).on('error', (data) => {
-            switch (data.code) {
+        express.listen(AppConfig.port, () => Log(`Server running on host ${ip.address()}:${AppConfig.port}`, 'success')).on('error', (error: any) => {
+            switch (error.code) {
                 case "EADDRINUSE":
-                    Logger.log(`Port ${AppConfig.port} is already in use.`, 'error');
+                    Log(`Port ${AppConfig.port} is already in use.`, 'error');
                     break;
                 default:
-                    Logger.log('A fatal error occured while trying to create the server.', 'error');
+                    Log('A fatal error occured while trying to create the server.', 'error');
                     break;
             }
 
             process.exit();
         });
         if (RouterConfig.log_requests) {
-            Logger.log('Router log mode enabled. All requests will be logged.');
+            Log('Router log mode enabled. All requests will be logged.');
         }
     },
-    halt: () => {
-        Logger.log('Server shutting down...', 'warn');
+    halt: (): void => {
+        Log('Server shutting down...', 'warn');
         process.exit();
     }
 }

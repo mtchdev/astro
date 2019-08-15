@@ -18,7 +18,7 @@ const rl = readline.createInterface({
 
 cli();
 
-function cli() : void {
+function cli():void {
     if (!DBConfig.enabled) {
         console.log('Warning! Database integration is disabled in database.config\n\n');
     }

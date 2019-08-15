@@ -1,30 +1,30 @@
 import fs from 'fs';
-import mysql from 'mysql';
+import * as mysql from 'mysql';
 import { DBConfig } from '../config/database.config';
-
-const instance = mysql.createConnection({
-    ...DBConfig.mysql,
-    port: DBConfig.mysql.port
-});
-
-instance.connect();
+import { Connection, createConnection } from 'typeorm';
 
 (async () => {
-    let directories = await fs.readdirSync(__dirname + '/schema');
+    const instance: Connection = await createConnection({
+        ...DBConfig.mysql,
+        type: 'mysql'
+    });
+
+    let directories: Array<string> = await fs.readdirSync(__dirname + '/schema');
 
     for (let i = 0; i < directories.length; i++) {
         let dir = await fs.readFileSync(__dirname + '/schema/' + directories[i], "utf8");
-        instance.query(mysql.format(dir), (err: any) => {
-            if (err) {
-                throw new Error(err);
-            }
 
-            console.log('Migrated ' + directories[i].replace(new RegExp(/.sql/, 'g'), '') + ' successfully.');
+        try {
+            await instance.query(mysql.format(dir));
+
+            console.log(`Migrated '${directories[i].replace(new RegExp(/.sql/, 'g'), '')}' successfully (${i+1}/${directories.length})`);
 
             if (i == directories.length - 1) {
-                console.log(`Finished! Successfully completed ${directories.length} ${directories.length === 1 ? 'migration' : 'migrations'}.`); 
+                console.log(`Finished! Successfully completed ${directories.length} ${directories.length === 1 ? 'migration':'migrations'}.`); 
                 return process.exit();
             }
-        });
+        } catch (e) {
+            throw new Error(e);
+        }
     }
 })();
