@@ -1,7 +1,7 @@
 import { Controller } from 'vendor/astro/http/Controller';
 import { Request } from 'express';
 import { User } from 'app/models/User';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export class UserController extends Controller {
     
